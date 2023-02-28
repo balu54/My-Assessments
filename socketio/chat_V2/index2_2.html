@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Message Form</title>
+  <style>
+    /* Style for input div */
+    #input {
+      margin-bottom: 20px;
+    }
+
+    /* Style for label elements */
+    label {
+      display: inline-block;
+      width: 60px;
+      text-align: right;
+      margin-right: 10px;
+    }
+
+    /* Style for input elements */
+    input[type="text"] {
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      margin-right: 10px;
+    }
+
+    /* Style for button elements */
+    button {
+      padding: 5px 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #3e8e41;
+    }
+
+    /* Style for output div */
+    #output {
+      border: 1px solid #ccc;
+      padding: 10px;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+    }
+
+    /* Style for message div */
+    #message {
+      display: none;
+    }
+
+    /* Style for message input */
+    #message input[type="text"] {
+      width: 80%;
+    }
+
+    /* Style for message button */
+    #message button {
+      width: 18%;
+    }
+  </style>
+</head>
+<body>
+  <div id="input">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name">
+    <button id="nameBtn">Submit Name</button>
+  </div>
+  <div id="output"></div>
+  <div id="message" style="display:none;">
+    <label for="message">Message:</label>
+    <input type="text" id="messageText" name="message">
+    <button id="messageBtn">Send Message</button>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const inputDiv = document.querySelector('#input');
+    const outputDiv = document.querySelector('#output');
+    const messageDiv = document.querySelector('#message');
+    const nameInput = document.querySelector('#name');
+    const nameBtn = document.querySelector('#nameBtn');
+    const messageInput = document.querySelector('#messageText');
+    const messageBtn = document.querySelector('#messageBtn');
+
+    let name = '';
+    const socket = io({ query: { name } }); // send user-entered name to the server
+
+    // Handle name submission
+    nameBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+      name = nameInput.value;
+      inputDiv.style.display = 'none';
+      messageDiv.style.display = 'block';
+
+      socket.io.opts.query.name = name; // update user-entered name in socket options
+    });
+
+    // Handle message submission
+    const sendMessage = () => {
+      const message = messageInput.value;
+      if (message) {
+        // outputDiv.innerHTML += `<strong>${name}:</strong> ${message}<br>`; // display user-entered name
+        socket.emit('chat message', `${name} : ${message}`);
+        messageInput.value = '';
+      }
+    };
+
+    // Handle message submission
+    messageBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      const message = messageInput.value;
+      if (message) {
+        // outputDiv.innerHTML += `<strong>${name}:</strong> ${message}<br>`; // display user-entered name
+        socket.emit('chat message', `${name} : ${message}`);
+        messageInput.value = '';
+      }
+    });
+    messageInput.addEventListener('keypress', (event) => {
+  if (event.key === 'Enter') {
+    sendMessage();
+  }
+});
+
+// Handle receiving messages
+socket.on('chat message', (msg) => {
+  outputDiv.innerHTML += `<p>${msg}</p>`;
+  outputDiv.scrollTop = outputDiv.scrollHeight;
+});
+  </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <title>SocketIO Example</title>
+  </head>
+  <body>
+    <form id="name-form">
+      <label for="name">Enter your name:</label>
+      <input type="text" id="name" name="name">
+      <input type="submit" value="Submit">
+    </form>
+    <div id="greeting"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      const nameForm = document.getElementById('name-form');
+      const nameInput = document.getElementById('name');
+      const greetingDiv = document.getElementById('greeting');
+
+      nameForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const name = nameInput.value;
+        socket.emit('name', name);
+      });
+
+      socket.on('greeting', (message) => {
+        greetingDiv.innerHTML = message;
+      });
+    </script>
+  </body>
+</html> -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SocketIO Example</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+      }
+
+      form {
+        margin-top: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      input[type="text"] {
+        padding: 5px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        width: 200px;
+      }
+
+      input[type="submit"] {
+        padding: 5px 10px;
+        background-color: #4caf50;
+        color: #fff;
+        border-radius: 5px;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #3e8e41;
+      }
+
+      #greeting {
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="name-form">
+      <label for="name">Enter your name:</label>
+      <input type="text" id="name" name="name">
+      <input type="submit" value="Submit">
+    </form>
+    <div id="greeting"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      const nameForm = document.getElementById('name-form');
+      const nameInput = document.getElementById('name');
+      const greetingDiv = document.getElementById('greeting');
+
+      nameForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const name = nameInput.value;
+        socket.emit('name', name);
+      });
+
+      socket.on('greeting', (message) => {
+        greetingDiv.innerHTML = message;
+      });
+    </script>
+  </body>
+</html>
